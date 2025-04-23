@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from './api.service';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,15 @@ import { Component } from '@angular/core';
   standalone: false,
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'FRONTEND';
+export class AppComponent implements OnInit{
+
+  message = '';
+
+  constructor(private ApiService: ApiService) {}
+
+  ngOnInit() {
+    this.ApiService.getMessage().subscribe((data: any) => {
+      this.message = data.message;
+    });
+  }
 }
