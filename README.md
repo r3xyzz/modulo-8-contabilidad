@@ -4,9 +4,9 @@ Este repositorio contiene el desarrollo de un **módulo de contabilidad digital*
 
 ## 👥 Equipo de desarrollo
 
-- **Ethan** — Desarrollador principal, creador del repositorio y Especialista en interfaz de usuario 
+- **Ethan** — Especialista en interfaz de usuario y ayuda con base de datos
 - **Araceli** — Encargado de la lógica de negocio y conexión con la base de datos 
-- **Felipe** —  Encargado de la lógica de y conexión con la base de datos junto Araceli
+- **Felipe** —  Encargado de la lógica y conexión con la base de datos junto Araceli
 
 ## 🔍 Funcionalidades principales
 
