@@ -1,0 +1,17 @@
+<h2>Asientos Contables</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Descripción</th>
+      <th>Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let entry of journalEntries">
+      <td>{{ entry.id }}</td>
+      <td>{{ entry.descripcion }}</td>
+      <td>{{ entry.fecha }}</td>
+    </tr>
+  </tbody>
+</table>

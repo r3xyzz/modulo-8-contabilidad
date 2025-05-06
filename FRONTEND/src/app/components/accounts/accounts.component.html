@@ -1,0 +1,17 @@
+<h2>Lista de Cuentas Contables</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Descripción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let account of accounts">
+      <td>{{ account.id }}</td>
+      <td>{{ account.nombreCuenta }}</td>
+      <td>{{ account.descripcion }}</td>
+    </tr>
+  </tbody>
+</table>
