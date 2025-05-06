@@ -24,5 +24,6 @@ def home(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('moduloContabilidad/', include('moduloContabilidad.urls')),
-    path('', home),
+    path('', include('moduloContabilidad.urls')),
+    
 ]

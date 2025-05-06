@@ -6,9 +6,9 @@ from .api import CuentaContableViewSet, AsientoContableViewSet, DetalleAsientoVi
 
 router = routers.DefaultRouter()
 
-router.register('api/cuentasContables', CuentaContableViewSet, 'Cuentas Contables')
-router.register('api/asientosContables', AsientoContableViewSet, 'Asientos Contables')
-router.register('api/detallesAsientos', DetalleAsientoViewSet, 'Detalle de Asientos Contables')
+router.register('api/cuentascontables', CuentaContableViewSet, 'Cuentas Contables')
+router.register('api/asientoscontables', AsientoContableViewSet, 'Asientos Contables')
+router.register('api/detallesasientos', DetalleAsientoViewSet, 'Detalle de Asientos Contables')
 router.register('api/transacciones', TransaccionViewSet, 'Transacciones')
 
 urlpatterns = router.urls
