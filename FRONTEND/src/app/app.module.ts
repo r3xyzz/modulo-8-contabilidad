@@ -2,21 +2,27 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ReportComponent } from './reports/report.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent // Solo el componente principal se declara aquí
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    CommonModule,
+    DashboardComponent, // Importa el componente standalone
+    ReportComponent     // Importa el componente standalone
   ],
   providers: [],
-  bootstrap: [AppComponent] // Este es ESSENCIAL para que se muestre tu componente
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

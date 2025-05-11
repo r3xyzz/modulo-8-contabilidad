@@ -1,0 +1,21 @@
+<h1>{{ title }}</h1>
+<p>Lista de Cuentas Contables:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Tipo</th>
+      <th>Código</th>
+      <th>Descripción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cuenta of cuentasContables">
+      <td>{{ cuenta.nombreCuenta }}</td>
+      <td>{{ cuenta.tipoCuenta }}</td>
+      <td>{{ cuenta.codigoCuenta }}</td>
+      <td>{{ cuenta.descripcionCuenta }}</td>
+    </tr>
+  </tbody>
+</table>

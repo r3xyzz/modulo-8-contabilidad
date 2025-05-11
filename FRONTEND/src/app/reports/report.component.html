@@ -1,0 +1,19 @@
+<h1>{{ title }}</h1>
+<p>Lista de Asientos Contables:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Descripción</th>
+      <th>Referencia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let asiento of asientosContables">
+      <td>{{ asiento.fechaAsiento }}</td>
+      <td>{{ asiento.descripcionAsiento }}</td>
+      <td>{{ asiento.referenciaAsiento }}</td>
+    </tr>
+  </tbody>
+</table>
