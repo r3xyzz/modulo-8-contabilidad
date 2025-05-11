@@ -4,17 +4,16 @@ import { ApiService } from './api.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: false,
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
+  standalone: false // Asegúrate que sea false cuando usas módulos
 })
-export class AppComponent implements OnInit{
-
+export class AppComponent implements OnInit {
   message = '';
 
-  constructor(private ApiService: ApiService) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    this.ApiService.getMessage().subscribe((data: any) => {
+    this.apiService.getMessage().subscribe((data: any) => {
       this.message = data.message;
     });
   }
