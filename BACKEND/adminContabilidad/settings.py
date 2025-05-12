@@ -84,6 +84,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'USER': 'USUARIOOCHO',                 # Cambia por tu usuario de MySQL
+        'PASSWORD': 'admin',          # Cambia por tu contraseña de MySQL
+        'HOST': '44.206.36.40',            # Cambia por el endpoint de tu base de datos en AWS
+        'PORT': '3306',                       # Puerto por defecto de MySQL
     }
 }
 
