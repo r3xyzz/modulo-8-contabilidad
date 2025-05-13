@@ -5,10 +5,24 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ApiService {
+  private baseUrl = 'http://127.0.0.1:8000/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getMessage() {
-    return this.http.get('http://localhost:8000/moduloContabilidad/hello/');
+  getCuentasContables() {
+    return this.http.get(`${this.baseUrl}/cuentascontables/`);
+  }
+
+  getAsientosContables() {
+    return this.http.get(`${this.baseUrl}/asientoscontables/`);
+  }
+
+  getDetallesAsientos() {
+    return this.http.get(`${this.baseUrl}/detallesasientos/`);
+  }
+
+  getTransacciones() {
+    return this.http.get(`${this.baseUrl}/transacciones/`);
   }
 }
+

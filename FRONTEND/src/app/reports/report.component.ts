@@ -1,19 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../services/api.service';
+
 
 @Component({
   selector: 'app-report',
-  standalone: true, // Indica que es un componente standalone
-  imports: [CommonModule], // Importa CommonModule para usar *ngFor
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css']
 })
-export class ReportComponent {
+export class ReportComponent implements OnInit {
   title = 'Reportes';
+  asientosContables: any[] = [];
 
-  asientosContables = [
-    { fechaAsiento: '2025-05-01', descripcionAsiento: 'Compra de mercancías', referenciaAsiento: 'A001' },
-    { fechaAsiento: '2025-05-02', descripcionAsiento: 'Pago a proveedores', referenciaAsiento: 'A002' },
-    { fechaAsiento: '2025-05-03', descripcionAsiento: 'Venta de productos', referenciaAsiento: 'A003' }
-  ];
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit() {
+    this.apiService.getAsientosContables().subscribe((data: any) => {
+      this.asientosContables = data;
+    });
+  }
 }
+

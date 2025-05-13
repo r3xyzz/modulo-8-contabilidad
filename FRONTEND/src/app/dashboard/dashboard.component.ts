@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,13 +9,15 @@ import { CommonModule } from '@angular/common';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   title = 'Dashboard';
+  cuentasContables: any[] = [];
 
-  // Datos de ejemplo para la tabla
-  cuentasContables = [
-    { nombreCuenta: 'Caja', tipoCuenta: 'Activo', codigoCuenta: '101', descripcionCuenta: 'Dinero en efectivo' },
-    { nombreCuenta: 'Banco', tipoCuenta: 'Activo', codigoCuenta: '102', descripcionCuenta: 'Dinero en cuentas bancarias' },
-    { nombreCuenta: 'Clientes', tipoCuenta: 'Activo', codigoCuenta: '103', descripcionCuenta: 'Cuentas por cobrar' }
-  ];
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit() {
+    this.apiService.getCuentasContables().subscribe((data: any) => {
+      this.cuentasContables = data;
+    });
+  }
 }

@@ -1,7 +1,7 @@
 <h1>{{ title }}</h1>
 <p>Lista de Cuentas Contables:</p>
 
-<table>
+<table *ngIf="cuentasContables && cuentasContables.length > 0; else sinDatos">
   <thead>
     <tr>
       <th>Nombre</th>
@@ -19,3 +19,7 @@
     </tr>
   </tbody>
 </table>
+
+<ng-template #sinDatos>
+  <p>No hay cuentas contables para mostrar.</p>
+</ng-template>

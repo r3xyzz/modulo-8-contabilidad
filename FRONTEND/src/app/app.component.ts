@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    this.apiService.getMessage().subscribe((data: any) => {
+    this.apiService.getCuentasContables().subscribe((data: any) => {
       this.message = data.message;
     });
   }
