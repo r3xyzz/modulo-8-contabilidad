@@ -3,54 +3,68 @@
 
   <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!--
-    -Funcion para ver los reportes por fecha-
-
+      Campos de fecha (opcional, actualmente comentados)
+      Sirven para filtrar los reportes por rango de fechas.
+    -->
+    <!--
     <div>
       <label for="dateStart" class="block">Desde:</label>
       <input type="date" id="dateStart" class="form-input w-full">
     </div>
-
     <div>
       <label for="dateEnd" class="block">Hasta:</label>
       <input type="date" id="dateEnd" class="form-input w-full">
     </div>
     -->
+
+    <!-- Selector de tipo de operación para filtrar los asientos contables -->
     <div>
       <label for="operationType" class="block">Tipo de Operación:</label>
       <select id="operationType" class="form-select w-full">
         <option value="all">Todas</option>
+        <option value="compra">Compra</option>
+        <option value="devolucion">Devolución</option>
       </select>
     </div>
 
+    <!-- Selector de formato de reporte, enlazado con selectedFormat en TS -->
     <div>
       <label for="reportFormat" class="block">Formato de Reporte:</label>
-      <select id="reportFormat" class="form-select w-full">
+      <select id="reportFormat" class="form-select w-full" [(ngModel)]="selectedFormat" name="reportFormat">
         <option value="screen">Ver en Pantalla</option>
+        <option value="excel">Excel</option>
+        <option value="pdf">PDF</option>
+        <option value="word">Word</option>
       </select>
     </div>
 
-    <div class="md:col-span-2">
-      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Generar Reporte</button>
+    <!-- Botones de acción: uno para mostrar en pantalla, otro para descargar -->
+    <div class="md:col-span-2 flex gap-2">
+      <!-- Llama a exportReport() para mostrar los datos en pantalla (puedes dejarlo vacío si no lo usas) -->
+      <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded" (click)="exportReport()">Generar Reporte</button>
+      <!-- Llama a downloadReport() para descargar el reporte en el formato seleccionado -->
+      <button type="button" class="bg-green-600 text-white px-4 py-2 rounded" (click)="downloadReport()">Descargar Reporte</button>
     </div>
   </form>
 
-  <!-- Resultados del reporte -->
+  <!-- Tabla que muestra los resultados del reporte en pantalla -->
   <div id="reportResult" class="mt-6">
     <h1>{{ title }}</h1>
     <p>Lista de Asientos Contables:</p>
-    <table>
+    <table class="min-w-full border">
       <thead>
         <tr>
-          <th>Fecha</th>
-          <th>Descripción</th>
-          <th>Referencia</th>
+          <th class="border px-2 py-1">Fecha</th>
+          <th class="border px-2 py-1">Descripción</th>
+          <th class="border px-2 py-1">Referencia</th>
         </tr>
       </thead>
       <tbody>
+        <!-- Recorre y muestra cada asiento contable -->
         <tr *ngFor="let asiento of asientosContables">
-          <td>{{ asiento.fechaAsiento }}</td>
-          <td>{{ asiento.descripcionAsiento }}</td>
-          <td>{{ asiento.referenciaAsiento }}</td>
+          <td class="border px-2 py-1">{{ asiento.fechaAsiento }}</td>
+          <td class="border px-2 py-1">{{ asiento.descripcionAsiento }}</td>
+          <td class="border px-2 py-1">{{ asiento.referenciaAsiento }}</td>
         </tr>
       </tbody>
     </table>

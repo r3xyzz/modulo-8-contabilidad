@@ -5,7 +5,7 @@ import { ApiService } from './services/api.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  standalone: false // Asegúrate que sea false cuando usas módulos
+  standalone: false
 })
 export class AppComponent implements OnInit {
   message = '';

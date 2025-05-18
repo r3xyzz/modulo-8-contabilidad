@@ -2,7 +2,11 @@ import requests
 from collections import Counter
 
 # URL del endpoint local
-API_URL = "http://localhost:8000/api/cuentascontables/"
+# API_URL = "http://localhost:8000/api/cuentascontables/"
+
+# URL del endpoint remoto
+API_URL = "http://34.225.192.85:8000/api/cuentascontables/" 
+
 
 def obtener_datos():
     try:
