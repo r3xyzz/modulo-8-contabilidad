@@ -38,8 +38,8 @@ class DetalleAsiento(models.Model):
     IdDetalle = models.AutoField(primary_key=True)  # Especificamos que IdCuenta es la clave primaria
     debe = models.DecimalField(max_digits=10, decimal_places=5)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
     haber = models.DecimalField(max_digits=10, decimal_places=5)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
-    idAsiento = models.ForeignKey('Asientocontable', on_delete=models.CASCADE, db_column='idAsiento_id')  # Field name made lowercase.
-    idCuenta = models.ForeignKey('Cuentacontable', on_delete=models.CASCADE, db_column='idCuenta_id')  # Field name made lowercase.
+    idAsiento = models.ForeignKey('Asientocontable', on_delete=models.CASCADE, db_column='idAsiento')  # Field name made lowercase.
+    idCuenta = models.ForeignKey('Cuentacontable', on_delete=models.CASCADE, db_column='idCuenta')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -50,7 +50,7 @@ class Transaccion(models.Model):
     tipoTransaccion = models.CharField(db_column='tipoTransaccion', max_length=500)  # Field name made lowercase.
     montoTransaccion = models.DecimalField(db_column='montoTransaccion', max_digits=10, decimal_places=5)  # Field name made lowercase. max_digits and decimal_places have been guessed, as this database handles decimal fields as float
     fechaTransaccion = models.DateField(db_column='fechaTransaccion')  # Field name made lowercase.
-    idAsiento = models.ForeignKey('Asientocontable', on_delete=models.CASCADE, db_column='idAsiento_id')  # Field name made lowercase.
+    idAsiento = models.ForeignKey('Asientocontable', on_delete=models.CASCADE, db_column='idAsiento')  # Field name made lowercase.
 
     class Meta:
         managed = False
