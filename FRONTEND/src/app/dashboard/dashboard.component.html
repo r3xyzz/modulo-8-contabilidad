@@ -1,6 +1,23 @@
 <h1>{{ title }}</h1>
 <p>Lista de Cuentas Contables:</p>
 
+
+<!-- Botón para mostrar el formulario de agregar -->
+<button (click)="nuevaCuenta()">Agregar Cuenta Contable</button>
+
+<!-- Formulario -->
+<div *ngIf="formularioVisible">
+  <h3>{{ cuentaSeleccionada ? 'Editar' : 'Agregar' }} Cuenta Contable</h3>
+  <form (ngSubmit)="guardarCuenta()">
+    <input [(ngModel)]="cuentaForm.nombreCuenta" name="nombreCuenta" placeholder="Nombre" required />
+    <input [(ngModel)]="cuentaForm.tipoCuenta" name="tipoCuenta" placeholder="Tipo" required />
+    <input [(ngModel)]="cuentaForm.codigoCuenta" name="codigoCuenta" placeholder="Código" required />
+    <input [(ngModel)]="cuentaForm.descripcionCuenta" name="descripcionCuenta" placeholder="Descripción" required />
+    <button type="submit">{{ cuentaSeleccionada ? 'Actualizar' : 'Guardar' }}</button>
+    <button type="button" (click)="cancelar()">Cancelar</button>
+  </form>
+</div>
+
 <table *ngIf="cuentasContables && cuentasContables.length > 0; else sinDatos">
   <thead>
     <tr>
@@ -8,6 +25,7 @@
       <th>Tipo</th>
       <th>Código</th>
       <th>Descripción</th>
+      <th>Acciones</th>
     </tr>
   </thead>
   <tbody>
@@ -16,6 +34,10 @@
       <td>{{ cuenta.tipoCuenta }}</td>
       <td>{{ cuenta.codigoCuenta }}</td>
       <td>{{ cuenta.descripcionCuenta }}</td>
+      <td>
+        <button (click)="editarCuenta(cuenta)">Editar</button>
+        <button (click)="eliminarCuenta(cuenta.idCuenta)">Eliminar</button>
+      </td>
     </tr>
   </tbody>
 </table>
