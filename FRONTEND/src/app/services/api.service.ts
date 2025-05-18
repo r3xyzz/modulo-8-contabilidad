@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'http://127.0.0.1:8000/api';
+  private baseUrl = 'http://34.225.192.85:8000/api'; // Cambia esto por la URL de la API
 
   constructor(private http: HttpClient) {}
 

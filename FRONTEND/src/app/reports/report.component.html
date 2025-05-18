@@ -1,19 +1,58 @@
-<h1>{{ title }}</h1>
-<p>Lista de Asientos Contables:</p>
+<div class="p-4 bg-white rounded shadow">
+  <h2 class="text-xl font-bold mb-4">Generación de Reportes Contables</h2>
 
-<table>
-  <thead>
-    <tr>
-      <th>Fecha</th>
-      <th>Descripción</th>
-      <th>Referencia</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let asiento of asientosContables">
-      <td>{{ asiento.fechaAsiento }}</td>
-      <td>{{ asiento.descripcionAsiento }}</td>
-      <td>{{ asiento.referenciaAsiento }}</td>
-    </tr>
-  </tbody>
-</table>
+  <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!--
+    -Funcion para ver los reportes por fecha-
+
+    <div>
+      <label for="dateStart" class="block">Desde:</label>
+      <input type="date" id="dateStart" class="form-input w-full">
+    </div>
+
+    <div>
+      <label for="dateEnd" class="block">Hasta:</label>
+      <input type="date" id="dateEnd" class="form-input w-full">
+    </div>
+    -->
+    <div>
+      <label for="operationType" class="block">Tipo de Operación:</label>
+      <select id="operationType" class="form-select w-full">
+        <option value="all">Todas</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="reportFormat" class="block">Formato de Reporte:</label>
+      <select id="reportFormat" class="form-select w-full">
+        <option value="screen">Ver en Pantalla</option>
+      </select>
+    </div>
+
+    <div class="md:col-span-2">
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Generar Reporte</button>
+    </div>
+  </form>
+
+  <!-- Resultados del reporte -->
+  <div id="reportResult" class="mt-6">
+    <h1>{{ title }}</h1>
+    <p>Lista de Asientos Contables:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Descripción</th>
+          <th>Referencia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let asiento of asientosContables">
+          <td>{{ asiento.fechaAsiento }}</td>
+          <td>{{ asiento.descripcionAsiento }}</td>
+          <td>{{ asiento.referenciaAsiento }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
