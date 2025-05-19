@@ -57,10 +57,9 @@ class Transaccion(models.Model):
         db_table = 'Transaccion'
 
 class ReporteContable(models.Model):
-    idReporte = models.AutoField(db_column='idReporte', primary_key=True)  # Field name made lowercase.
-    archivoReporte = models.TextField(db_column='archivoReporte', blank=True, null=True)  # Field name made lowercase.
-    creacionReporte = models.DateTimeField(db_column='creacionReporte', auto_now_add=True)  # Field name made lowercase.
-    
+    idReporte = models.AutoField(db_column='idReporte', primary_key=True)
+    archivoReporte = models.FileField(upload_to='reportes/', db_column='archivoReporte', blank=True, null=True)
+    creacionReporte = models.DateTimeField(db_column='creacionReporte', auto_now_add=True)
 
     class Meta:
         managed = False
