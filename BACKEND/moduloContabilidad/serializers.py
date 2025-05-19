@@ -22,7 +22,22 @@ class TransaccionSerializer(serializers.ModelSerializer):
         fields = ('idTransaccion','idAsiento', 'tipoTransaccion', 'montoTransaccion', 'fechaTransaccion')
 
 class ReporteContableSerializer(serializers.ModelSerializer):
+    tipoArchivo = serializers.SerializerMethodField()
+
     class Meta:
         model = ReporteContable
-        fields = ('idReporte', 'archivoReporte', 'creacionReporte')
+        fields = ('idReporte', 'archivoReporte', 'tipoArchivo', 'creacionReporte')
         read_only_fields = ('creacionReporte', )
+
+    def get_tipoArchivo(self, obj):
+        if obj.archivoReporte:
+            nombre = obj.archivoReporte.name.lower()
+            if nombre.endswith('.pdf'):
+                return 'pdf'
+            elif nombre.endswith('.xlsx'):
+                return 'excel'
+            elif nombre.endswith('.docx'):
+                return 'word'
+            else:
+                return 'otro'
+        return None
