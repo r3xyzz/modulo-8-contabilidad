@@ -2,22 +2,31 @@
 <p>Lista de Cuentas Contables:</p>
 
 
-<!-- Botón para mostrar el formulario de agregar -->
+<!-- Botón para mostrar el formulario de agregar una nueva cuenta contable -->
 <button (click)="nuevaCuenta()">Agregar Cuenta Contable</button>
 
-<!-- Formulario -->
+<!-- Formulario para agregar o editar una cuenta contable -->
 <div *ngIf="formularioVisible">
+  <!-- Título dinámico: muestra "Editar" o "Agregar" según si hay una cuenta seleccionada -->
   <h3>{{ cuentaSeleccionada ? 'Editar' : 'Agregar' }} Cuenta Contable</h3>
+  <!-- Formulario que llama a guardarCuenta() al enviar -->
   <form (ngSubmit)="guardarCuenta()">
+    <!-- Campo para el nombre de la cuenta -->
     <input [(ngModel)]="cuentaForm.nombreCuenta" name="nombreCuenta" placeholder="Nombre" required />
+    <!-- Campo para el tipo de cuenta -->
     <input [(ngModel)]="cuentaForm.tipoCuenta" name="tipoCuenta" placeholder="Tipo" required />
+    <!-- Campo para el código de la cuenta -->
     <input [(ngModel)]="cuentaForm.codigoCuenta" name="codigoCuenta" placeholder="Código" required />
+    <!-- Campo para la descripción de la cuenta -->
     <input [(ngModel)]="cuentaForm.descripcionCuenta" name="descripcionCuenta" placeholder="Descripción" required />
+    <!-- Botón para guardar o actualizar la cuenta -->
     <button type="submit">{{ cuentaSeleccionada ? 'Actualizar' : 'Guardar' }}</button>
+    <!-- Botón para cancelar y ocultar el formulario -->
     <button type="button" (click)="cancelar()">Cancelar</button>
   </form>
 </div>
 
+<!-- Tabla que muestra la lista de cuentas contables si existen -->
 <table *ngIf="cuentasContables && cuentasContables.length > 0; else sinDatos">
   <thead>
     <tr>
@@ -29,19 +38,23 @@
     </tr>
   </thead>
   <tbody>
+    <!-- Recorre cada cuenta contable y muestra sus datos en una fila -->
     <tr *ngFor="let cuenta of cuentasContables">
       <td>{{ cuenta.nombreCuenta }}</td>
       <td>{{ cuenta.tipoCuenta }}</td>
       <td>{{ cuenta.codigoCuenta }}</td>
       <td>{{ cuenta.descripcionCuenta }}</td>
       <td>
+        <!-- Botón para editar la cuenta, llama a editarCuenta() -->
         <button (click)="editarCuenta(cuenta)">Editar</button>
+        <!-- Botón para eliminar la cuenta, llama a eliminarCuenta() -->
         <button (click)="eliminarCuenta(cuenta.idCuenta)">Eliminar</button>
       </td>
     </tr>
   </tbody>
 </table>
 
+<!-- Mensaje alternativo si no hay cuentas contables para mostrar -->
 <ng-template #sinDatos>
   <p>No hay cuentas contables para mostrar.</p>
 </ng-template>

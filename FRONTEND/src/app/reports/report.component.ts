@@ -1,48 +1,53 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ApiService } from '../services/api.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // <-- Importa HttpClient
+import { ApiService } from '../services/api.service'; // Servicio para consumir la API de asientos contables
+import { HttpClient } from '@angular/common/http'; // Para enviar archivos al backend
 
-// Importaciones para exportar archivos
-import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
-import { saveAs } from 'file-saver';
-import { Document, Packer, Paragraph, Table, TableCell, TableRow } from 'docx';
+// Importaciones para exportar archivos en diferentes formatos
+import * as XLSX from 'xlsx'; // Para Excel
+import jsPDF from 'jspdf'; // Para PDF
+import autoTable from 'jspdf-autotable'; // Para tablas en PDF
+import { saveAs } from 'file-saver'; // Para guardar archivos en el navegador
+import { Document, Packer, Paragraph, Table, TableCell, TableRow } from 'docx'; // Para Word
 
 @Component({
   selector: 'app-report',
-  standalone: true,
+  standalone: true, // Componente standalone (no requiere módulo)
   imports: [CommonModule, FormsModule],
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
+  // Título de la sección
   title = 'Reportes';
-  asientosContables: any[] = []; // Aquí se guardan los datos de los asientos contables
-  selectedFormat: string = 'screen'; // Guarda el formato seleccionado en el select
 
+  // Lista de asientos contables a mostrar y exportar
+  asientosContables: any[] = [];
+
+  // Formato seleccionado para exportar o enviar el reporte
+  selectedFormat: string = 'screen';
+
+  // Inyecta los servicios necesarios
   constructor(
     private apiService: ApiService,
-    private http: HttpClient // <-- Agrega HttpClient al constructor
+    private http: HttpClient
   ) {}
 
+  // Al iniciar, obtiene los asientos contables desde la API
   ngOnInit() {
-    // Al iniciar, obtiene los asientos contables desde el servicio
     this.apiService.getAsientosContables().subscribe((data: any) => {
       this.asientosContables = data;
     });
   }
 
-  // Función para mostrar el reporte en pantalla (puedes dejarla vacía si no la usas)
+  // Muestra el reporte en pantalla (puedes agregar lógica de filtrado aquí)
   exportReport() {
     // Aquí podrías filtrar o preparar los datos para mostrar en pantalla
-
-    this.sendReport(); // Llama a la función para enviar el reporte
+    this.sendReport(); // También envía el reporte al backend al generar
   }
 
-  // Función principal para descargar el reporte en el formato seleccionado
+  // Descarga el reporte en el formato seleccionado
   downloadReport() {
     switch (this.selectedFormat) {
       case 'excel':
@@ -108,18 +113,19 @@ export class ReportComponent implements OnInit {
       }]
     });
 
+    // Genera el archivo Word y lo descarga
     Packer.toBlob(doc).then(blob => {
       saveAs(blob, 'reporte.docx');
     });
   }
 
-  // Envía los datos en pantalla a la API externa
+  // Envía el reporte generado al endpoint externo para guardarlo en el backend
   sendReport() {
     const url = 'http://34.225.192.85:8000/api/reportescontables/';
     const formData = new FormData();
 
     if (this.selectedFormat === 'excel') {
-      // Genera Excel como Blob
+      // Genera Excel como Blob y lo adjunta al FormData
       const ws = XLSX.utils.json_to_sheet(this.asientosContables);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Reporte');
@@ -127,7 +133,7 @@ export class ReportComponent implements OnInit {
       const excelBlob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       formData.append('archivoReporte', excelBlob, 'reporte.xlsx');
     } else if (this.selectedFormat === 'pdf') {
-      // Genera PDF como Blob
+      // Genera PDF como Blob y lo adjunta al FormData
       const doc = new jsPDF();
       autoTable(doc, {
         head: [['Fecha', 'Descripción', 'Referencia']],
@@ -136,7 +142,7 @@ export class ReportComponent implements OnInit {
       const pdfBlob = doc.output('blob');
       formData.append('archivoReporte', pdfBlob, 'reporte.pdf');
     } else if (this.selectedFormat === 'word') {
-      // Genera Word como Blob (async)
+      // Genera Word como Blob (asíncrono) y lo adjunta al FormData
       const tableRows = [
         new TableRow({
           children: [
@@ -165,7 +171,7 @@ export class ReportComponent implements OnInit {
         }]
       });
 
-      // Word es asíncrono, así que espera el blob y luego envía
+      // Espera a que se genere el blob y luego lo envía
       Packer.toBlob(doc).then(wordBlob => {
         formData.append('archivoReporte', wordBlob, 'reporte.docx');
         this.http.post(url, formData).subscribe({
@@ -179,7 +185,7 @@ export class ReportComponent implements OnInit {
       return;
     }
 
-    // Para Excel y PDF (sincrónico)
+    // Para Excel y PDF (sincrónico): envía el FormData al backend
     this.http.post(url, formData).subscribe({
       next: () => alert('Reporte enviado correctamente.'),
       error: () => alert('Error al enviar el reporte.')
@@ -187,3 +193,6 @@ export class ReportComponent implements OnInit {
   }
 }
 
+// Este componente permite mostrar, descargar y enviar reportes contables en varios formatos.
+// Usa servicios para obtener los datos y para enviar archivos al backend.
+// Cada método está claramente separado para cada acción (mostrar, descargar, enviar).
