@@ -10,9 +10,10 @@ import { DashboardComponent } from './dashboard/dashboard.component'; // Compone
 import { ReportComponent } from './reports/report.component'; // Componente standalone para reportes
 import { FormsModule } from '@angular/forms'; // Para formularios y ngModel
 
+
 @NgModule({
   declarations: [
-    AppComponent // Solo el componente raíz se declara aquí (los standalone no van en declarations)
+    AppComponent  // Solo el componente raíz se declara aquí (los standalone no van en declarations)
   ],
   imports: [
     BrowserModule,      // Necesario para apps web Angular
@@ -22,9 +23,11 @@ import { FormsModule } from '@angular/forms'; // Para formularios y ngModel
     CommonModule,       // Directivas comunes (ngIf, ngFor, etc.)
     FormsModule,        // Para formularios y ngModel
     DashboardComponent, // Importa el componente standalone del dashboard
-    ReportComponent     // Importa el componente standalone de reportes
+    ReportComponent,
+
   ],
   providers: [],        // Aquí irían los servicios globales si los hubiera
   bootstrap: [AppComponent] // Componente raíz que arranca la app
 })
 export class AppModule { }
+

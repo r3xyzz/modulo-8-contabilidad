@@ -1,6 +1,6 @@
 <div class="app-container">
-  <!-- Sidebar -->
-  <div class="sidebar">
+  <!-- Sidebar solo si está autenticado -->
+  <div class="sidebar" *ngIf="isLoggedIn()">
     <h2>TIENDA XYZ</h2>
     <div class="nav-menu">
       <div class="nav-item">
@@ -15,7 +15,7 @@
   </div>
 
   <!-- Main Content -->
-  <div class="main-content">
+  <div class="main-content" [ngClass]="{'full-width': !isLoggedIn()}">
     <router-outlet></router-outlet>
   </div>
 </div>

@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'moduloContabilidad',
     'corsheaders',
     'drf_spectacular',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
