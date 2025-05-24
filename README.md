@@ -21,9 +21,14 @@ Este repositorio contiene el desarrollo de un **módulo de contabilidad digital*
 - **Backend:** Django
 - **Base de Datos:** MySQL
 
+## 🛠📖 Documentacion de la API
+
+- **Api:** http://34.225.192.85:8000/api/schema/swagger-ui/#/)
+
 ## ⚙️ Instalación y ejecución
 
 1. Clona el repositorio:
    ```bash
    git clone https://github.com/ethanUsuario/modulo-contabilidad.git
    cd modulo-contabilidad
+   
