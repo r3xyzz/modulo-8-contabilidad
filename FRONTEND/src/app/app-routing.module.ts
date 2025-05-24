@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReportComponent } from './reports/report.component';
+import { LoginComponent } from './Login/login.component';
 
 // Define las rutas de la aplicación
 const routes: Routes = [
@@ -10,6 +11,11 @@ const routes: Routes = [
   // Ruta para el dashboard principal
   { path: 'dashboard', component: DashboardComponent },
   // Ruta para la sección de reportes
+  { path: 'reports', component: ReportComponent },
+  // Ruta para el componente de login
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'reports', component: ReportComponent }
 ];
 
