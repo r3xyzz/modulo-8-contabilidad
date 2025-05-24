@@ -4,6 +4,7 @@ from moduloContabilidad.views import hello
 from rest_framework import routers
 from .api import CuentaContableViewSet, AsientoContableViewSet, DetalleAsientoViewSet, TransaccionViewSet, ReporteContableViewSet
 
+
 router = routers.DefaultRouter()
 
 router.register('api/cuentascontables', CuentaContableViewSet, 'Cuentas Contables')

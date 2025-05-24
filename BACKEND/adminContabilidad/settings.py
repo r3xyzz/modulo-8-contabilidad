@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'moduloContabilidad',
     'corsheaders',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# SPECTACULAR_FRAMEWORK SETTINGS
+REST_FRAMEWORK = {
+    # YOUR SETTINGS
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# SPECTACULAR SETTINGS
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Modulo 8 Contabilidad API',
+    'DESCRIPTION': 'API del modulo 8 de contabilidad, para la gestion de cuentas contables, asientos contables, transacciones y reportes.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
