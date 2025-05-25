@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   username = '';
   password = '';
   error = '';
@@ -31,5 +31,9 @@ export class LoginComponent {
         this.error = 'Error al intentar iniciar sesión';
       }
     );
+  }
+
+  ngOnInit() {
+    this.authService.logout(); // <-- Esto borra el token al entrar a /login
   }
 }

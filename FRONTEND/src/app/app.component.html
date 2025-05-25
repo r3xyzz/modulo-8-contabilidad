@@ -1,21 +1,22 @@
 <div class="app-container">
-  <!-- Sidebar solo si está autenticado -->
-  <div class="sidebar" *ngIf="isLoggedIn()">
+  <!-- Sidebar solo si NO estás en login y el usuario está autenticado -->
+  <div class="sidebar" *ngIf="isLoggedIn() && !isLoginRoute()">
     <h2>TIENDA XYZ</h2>
     <div class="nav-menu">
       <div class="nav-item">
-        <i class="fas fa-chart-bar"></i>
         <a routerLink="/dashboard">Dashboard</a>
       </div>
       <div class="nav-item">
-        <i class="fas fa-file-alt"></i>
         <a routerLink="/reports">Reportes</a>
+      </div>
+      <div class="nav-item">
+        <button (click)="logout()" class="logout-btn">Cerrar sesión</button>
       </div>
     </div>
   </div>
 
   <!-- Main Content -->
-  <div class="main-content" [ngClass]="{'full-width': !isLoggedIn()}">
+  <div class="main-content" [ngClass]="{'full-width': !isLoggedIn() || isLoginRoute()}">
     <router-outlet></router-outlet>
   </div>
 </div>

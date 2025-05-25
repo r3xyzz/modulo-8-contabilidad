@@ -3,20 +3,19 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReportComponent } from './reports/report.component';
 import { LoginComponent } from './Login/login.component';
+import { AuthGuard } from './services/auth.guard';
 
 // Define las rutas de la aplicación
 const routes: Routes = [
   // Redirige la ruta vacía al dashboard
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  // Ruta para el dashboard principal
-  { path: 'dashboard', component: DashboardComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   // Ruta para la sección de reportes
-  { path: 'reports', component: ReportComponent },
+  { path: 'reports', component: ReportComponent, canActivate: [AuthGuard] },
   // Ruta para el componente de login
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'reports', component: ReportComponent }
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: 'login' }
 ];
 
 @NgModule({

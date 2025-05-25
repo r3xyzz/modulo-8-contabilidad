@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router'; // Importa Router
 
 
 @Component({
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
   message = '';
 
   // Inyecta el servicio ApiService para consumir la API
-  constructor(private apiService: ApiService, private authService: AuthService) {}
+  constructor(private apiService: ApiService, private authService: AuthService, private router: Router ) {}
 
   // Se ejecuta al iniciar el componente
   ngOnInit() {
@@ -30,4 +31,15 @@ export class AppComponent implements OnInit {
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
+
+
+  isLoginRoute(): boolean {
+    return this.router.url === '/login';
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
 }
