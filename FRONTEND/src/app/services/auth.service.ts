@@ -17,6 +17,7 @@ export class AuthService {
         // Guarda el token si tu backend lo retorna
         if (response && response.token) {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('username', username); // Guarda el usuario
           return true;
         }
         return false;
@@ -27,6 +28,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('username'); // Borra el usuario al cerrar sesión
   }
 
   isLoggedIn(): boolean {

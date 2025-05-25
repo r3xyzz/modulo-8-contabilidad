@@ -2,6 +2,9 @@
   <!-- Sidebar solo si NO estás en login y el usuario está autenticado -->
   <div class="sidebar" *ngIf="isLoggedIn() && !isLoginRoute()">
     <h2>TIENDA XYZ</h2>
+    <div class="welcome-message">
+    ## Bienvenido al sistema de contabilidad: <b>{{ getUsername() }} ##</b>
+    </div>
     <div class="nav-menu">
       <div class="nav-item">
         <a routerLink="/dashboard">Dashboard</a>

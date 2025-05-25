@@ -42,4 +42,7 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  getUsername(): string | null {
+  return localStorage.getItem('username');
+}
 }
