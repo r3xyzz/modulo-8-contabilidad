@@ -29,6 +29,6 @@ Este repositorio contiene el desarrollo de un **módulo de contabilidad digital*
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/ethanUsuario/modulo-contabilidad.git
+   git clone https://github.com/r3xyzz/modulo-8-contabilidad.git
    cd modulo-contabilidad
    
