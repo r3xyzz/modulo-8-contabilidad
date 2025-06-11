@@ -8,21 +8,47 @@
   background-color: #2C3E50;
   color: white;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Cambiado para alinear los elementos al inicio */
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  gap: 10px; /* Espaciado uniforme entre los elementos */
+}
+
+.sidebar h2 {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 10px; /* Reducido para menos separación */
+  color: #ecf0f1;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.nav-item {
+  padding: 10px 12px; /* Reducido para menos espacio interno */
+  margin: 5px 0; /* Reducido para menos separación entre elementos */
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #ecf0f1;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+.nav-item.active {
+  background-color: #1abc9c;
+  color: #fff;
+  font-weight: bold;
 }
 
 .main-content {
   flex: 1;
   padding: 20px;
-}
-
-.nav-item {
-  padding: 10px;
-  margin: 5px 0;
-  cursor: pointer;
-}
-
-.nav-item:hover {
-  background-color: rgba(255,255,255,0.1);
 }
 
 .status-message {
@@ -37,21 +63,26 @@
 
 .logout-btn {
   width: 100%;
-  padding: 10px;
-  background: #d32f2f;
+  padding: 10px; /* Reducido para menos espacio interno */
+  background: #e74c3c;
   color: #fff;
   border: none;
   border-radius: 4px;
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  margin-top: 16px;
+  margin-top: 10px; /* Reducido para menos separación */
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
 .logout-btn:hover {
-  background: #b71c1c;
+  background: #c0392b;
+  transform: scale(1.05);
 }
 
 .welcome-message {
-  margin-bottom: 20px;
+  margin-bottom: 10px; /* Reducido para menos separación */
   font-size: 16px;
-  color: #fff;
+  color: #bdc3c7;
+  text-align: center;
 }

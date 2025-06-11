@@ -1,44 +1,100 @@
+body {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .login-container {
-  max-width: 350px;
-  margin: 60px auto;
-  padding: 32px 24px;
+  max-width: 400px;
+  margin: auto;
+  padding: 40px 30px;
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   text-align: center;
+  animation: pop-in 0.5s ease-out;
+}
+
+@keyframes pop-in {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .login-container h2 {
   margin-bottom: 24px;
-  color: #333;
+  color: #444;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .login-container input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
   font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.login-container input:focus {
+  border-color: #ff6f61;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
 }
 
 .login-container button {
   width: 100%;
-  padding: 10px;
-  background: #1976d2;
+  padding: 12px;
+  background: linear-gradient(135deg, #ff6f61, #ff9472);
   color: #fff;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .login-container button:hover {
-  background: #1565c0;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(255, 111, 97, 0.5);
+}
+
+.login-container button:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .error {
-  color: #d32f2f;
+  color: #ff4d4d;
   margin-top: 10px;
   font-size: 14px;
+  font-weight: bold;
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  z-index: -1;
+  border-radius: 12px;
+  filter: blur(15px);
 }
