@@ -11,10 +11,23 @@ class Command(BaseCommand):
 
         url = 'http://35.153.174.128/api/compras/'
         response = requests.get(url)
-        compras = response.json()
+        compras = [
+            {
+                "id": 99,
+                "fecha": "2024-06-14",
+                "producto": "Monitor",
+                "precio_compra": "abc"
+            }
+        ]  # Simulación de respuesta de la API, reemplazar con response.json() en producción
 
         for compra in compras:
-            monto = float(compra['precio_compra'])
+            try:
+                monto = float(compra['precio_compra'])
+            except (ValueError, TypeError):
+                self.stdout.write(self.style.ERROR(
+                    f"Compra ID {compra.get('id', 'desconocido')} tiene un precio no numérico: {compra.get('precio_compra')}. Se omite."
+                ))
+                continue
 
             # 1. Crear AsientoContable
             asiento = AsientoContable.objects.create(
