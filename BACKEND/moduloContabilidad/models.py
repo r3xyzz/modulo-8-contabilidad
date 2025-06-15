@@ -36,8 +36,8 @@ class AsientoContable(models.Model):
 
 class DetalleAsiento(models.Model):
     idDetalle = models.AutoField(primary_key=True)  # Especificamos que IdCuenta es la clave primaria
-    debe = models.DecimalField(max_digits=10, decimal_places=5)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
-    haber = models.DecimalField(max_digits=10, decimal_places=5)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    debe = models.DecimalField(max_digits=20, decimal_places=5)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    haber = models.DecimalField(max_digits=20, decimal_places=5)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
     idAsiento = models.ForeignKey('Asientocontable', on_delete=models.CASCADE, db_column='idAsiento')  # Field name made lowercase.
     idCuenta = models.ForeignKey('Cuentacontable', on_delete=models.CASCADE, db_column='idCuenta')  # Field name made lowercase.
 
@@ -48,7 +48,7 @@ class DetalleAsiento(models.Model):
 class Transaccion(models.Model):
     idTransaccion = models.AutoField(primary_key=True)  # Especificamos que IdCuenta es la clave primaria
     tipoTransaccion = models.CharField(db_column='tipoTransaccion', max_length=500)  # Field name made lowercase.
-    montoTransaccion = models.DecimalField(db_column='montoTransaccion', max_digits=10, decimal_places=5)  # Field name made lowercase. max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    montoTransaccion = models.DecimalField(db_column='montoTransaccion', max_digits=20, decimal_places=5)  # Field name made lowercase. max_digits and decimal_places have been guessed, as this database handles decimal fields as float
     fechaTransaccion = models.DateField(db_column='fechaTransaccion')  # Field name made lowercase.
     idAsiento = models.ForeignKey('Asientocontable', on_delete=models.CASCADE, db_column='idAsiento')  # Field name made lowercase.
 
