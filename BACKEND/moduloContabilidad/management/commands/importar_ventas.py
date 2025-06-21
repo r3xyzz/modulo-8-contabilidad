@@ -3,36 +3,42 @@ from django.core.management.base import BaseCommand
 from moduloContabilidad.models import AsientoContable, DetalleAsiento, Transaccion
 
 class Command(BaseCommand):
-    help = 'Importa compras y las transforma en asientos contables'
+    help = 'Importa ventas y las transforma en asientos contables'
 
     def handle(self, *args, **kwargs):
         id_inventarios = 5  # ID de la cuenta Inventarios
         id_caja = 3         # ID de la cuenta Caja Principal
 
-        url = 'http://34.238.247.153:8000/api/'
+        url = 'http://107.20.12.19/api/productos/'
         response = requests.get(url)
-        compras = response.json()
+        productos = response.json()
 
-        for compra in compras:
-            monto = float(compra['precio_compra'])
+        for producto in productos:
+            try:
+                monto = float(producto['precio'])
+            except (ValueError, TypeError):
+                self.stdout.write(self.style.ERROR(
+                    f"Producto ID {producto.get('id', 'desconocido')} tiene un precio no numérico: {producto.get('precio')}. Se omite."
+                ))
+                continue
 
             # 1. Crear AsientoContable
             asiento = AsientoContable.objects.create(
-                fechaAsiento=compra['fecha'][:10],
-                descripcionAsiento=f"Compra de producto {compra['producto']}",
-                referenciaAsiento=f"Compra ID {compra['id']}"
+                fechaAsiento='2024-06-20',  # Puedes ajustar la fecha según tu lógica
+                descripcionAsiento=f"Venta de producto {producto['nombre']}",
+                referenciaAsiento=f"Producto ID {producto['id']}"
             )
 
-            # 2. Crear DetalleAsiento (Debe: Inventarios, Haber: Caja Principal)
+            # 2. Crear DetalleAsiento (Debe: Caja Principal, Haber: Inventarios)
             DetalleAsiento.objects.create(
                 idAsiento=asiento,
-                idCuenta_id=id_inventarios,
+                idCuenta_id=id_caja,
                 debe=monto,
                 haber=0
             )
             DetalleAsiento.objects.create(
                 idAsiento=asiento,
-                idCuenta_id=id_caja,
+                idCuenta_id=id_inventarios,
                 debe=0,
                 haber=monto
             )
@@ -40,9 +46,9 @@ class Command(BaseCommand):
             # 3. Crear Transaccion
             Transaccion.objects.create(
                 idAsiento=asiento,
-                tipoTransaccion='compra',
+                tipoTransaccion='venta',
                 montoTransaccion=monto,
-                fechaTransaccion=compra['fecha'][:10]
+                fechaTransaccion='2024-06-20'  # Ajusta la fecha si es necesario
             )
 
-            self.stdout.write(self.style.SUCCESS(f'Compra {compra["id"]} importada como asiento {asiento.idAsiento}'))
+            self.stdout.write(self.style.SUCCESS(f'Producto {producto["id"]} importado como asiento {asiento.idAsiento}'))
