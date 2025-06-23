@@ -1,8 +1,8 @@
 name: Deploy Django to EC2
-on: #prueba de activación
+on:
   push:
     branches:
-      - Master
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
