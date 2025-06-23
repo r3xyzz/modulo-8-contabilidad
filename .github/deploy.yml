@@ -2,7 +2,7 @@ name: Deploy Django to EC2
 on:
   push:
     branches:
-      - main
+      - Master
 jobs:
   deploy:
     runs-on: ubuntu-latest
