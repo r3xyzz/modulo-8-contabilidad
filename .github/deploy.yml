@@ -1,5 +1,5 @@
 name: Deploy Django to EC2
-on:
+on: #prueba de activación
   push:
     branches:
       - Master
