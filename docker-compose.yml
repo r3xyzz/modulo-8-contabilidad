@@ -1,0 +1,32 @@
+    version: '3.9' # Puedes ignorar el warning sobre 'version' obsoleta
+
+    services:
+      db:
+        image: mysql:8
+        restart: always
+        environment:
+          MYSQL_DATABASE: ${MYSQL_DATABASE}
+          MYSQL_USER: ${MYSQL_USER}
+          MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+          MYSQL_ROOT_PASSWORD: rootpassword
+        ports:
+          - "3306:3306"
+        volumes:
+          - mysql_data:/var/lib/mysql
+
+      backend:
+        build:
+          context: ./BACKEND 
+        command: python manage.py runserver 0.0.0.0:8000
+        ports:
+          - "8000:8000"
+        volumes:
+          - ./BACKEND:/app
+        depends_on:
+          - db
+        env_file:
+          - ./.env 
+
+    volumes:
+      mysql_data:
+    

@@ -29,10 +29,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-om_z@q_f*eu-^)#d4mxka@e$1jq6-o5=5=havw!pihgi21hr@b'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['34.225.192.85', 'localhost' , '127.0.0.1']
 
@@ -95,11 +95,11 @@ WSGI_APPLICATION = 'adminContabilidad.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'BdContabilidad',         # Nombre real de tu base de datos en MySQL
-        'USER': 'USUARIOOCHO',            # Usuario de MySQL
-        'PASSWORD': 'admin',              # Contraseña de MySQL
-        'HOST': '44.206.36.40',           # IP pública de tu instancia EC2
-        'PORT': '3306',                   # Puerto por defecto de MySQL
+        'NAME': os.getenv('MYSQL_DATABASE'), # Nombre real de tu base de datos en MySQL
+        'USER': os.getenv('MYSQL_USER'), # Usuario de MySQL
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'), # Contraseña de MySQL
+        'HOST': os.getenv('MYSQL_HOST'),# IP pública de tu instancia EC2
+        'PORT': os.getenv('MYSQL_PORT', '3306'), # Puerto por defecto de MySQL
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         }
