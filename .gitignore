@@ -1,13 +1,14 @@
 # Created by venv; see https://docs.python.org/3/library/venv.html
 
-# venv/
-# .venv/
-# env/
-# ENV/
+ venv/
+ .venv/
+ env/
+ ENV/
 
-# myvenv/
-# venv/
-# .venv/
-# env/
-# .env/
-# ENV/
+ myvenv/
+ venv/
+ .venv/
+ env/
+ .env/
+ .env
+ ENV/
