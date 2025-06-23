@@ -2,7 +2,7 @@ name: Deploy Django to EC2
 on:
   push: #Activación forzada desde GitHub
     branches:
-      - main
+      - Master
 jobs:
   deploy:
     runs-on: ubuntu-latest
