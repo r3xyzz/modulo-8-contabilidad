@@ -1,6 +1,6 @@
 name: Deploy Django to EC2
 on:
-  push:
+  push: #Prueba de ejecucion
     branches:
       - main
 jobs:
