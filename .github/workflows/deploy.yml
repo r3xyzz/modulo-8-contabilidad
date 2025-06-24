@@ -3,7 +3,7 @@ name: Deploy Django to EC2
 on:
   push:
     branches:
-      - Master 
+      - Master #test
 
 jobs:
   deploy:
