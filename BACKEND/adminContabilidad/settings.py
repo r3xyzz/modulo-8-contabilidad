@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'adminContabilidad.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQL_DATABASE'), # Nombre real de tu base de datos en MySQL
+        'NAME': os.getenv('MYSQL_DATABASE'), # Lee desde .env
         'USER': os.getenv('MYSQL_USER'), # Usuario de MySQL
         'PASSWORD': os.getenv('MYSQL_PASSWORD'), # Contraseña de MySQL
         'HOST': os.getenv('MYSQL_HOST'),# IP pública de tu instancia EC2
@@ -151,8 +151,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # SPECTACULAR_FRAMEWORK SETTINGS
 REST_FRAMEWORK = {
-    # YOUR SETTINGS
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication', # Si usas tokens
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny', # Permite acceso público a la API
+        # 'rest_framework.permissions.IsAuthenticated', # Si requieres autenticación para toda la API
+    ],
 }
 
 # SPECTACULAR SETTINGS

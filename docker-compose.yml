@@ -20,17 +20,17 @@ services:
       timeout: 10s        # Tiempo máximo para que el comando responda
       retries: 5          # Número de reintentos antes de considerar el servicio "unhealthy"
       start_period: 30s   # Tiempo de gracia inicial para que el servicio arranque antes de empezar las comprobaciones
-    # --- FIN DE LAS NUEVAS LÍNEAS PARA HEALTHCHECK ---
+  # --- FIN DE LAS NUEVAS LÍNEAS PARA HEALTHCHECK ---
 
   backend:
     build:
       context: ./BACKEND 
-    command: python manage.py runserver 0.0.0.0:8000
+    
     ports:
       - "8000:8000"
     volumes:
       - ./BACKEND:/app
-  
+    entrypoint: ["/bin/sh", "-c", "sleep 15 && python manage.py runserver 0.0.0.0:8000"]
     depends_on:
       db:
         condition: service_healthy 
@@ -39,14 +39,6 @@ services:
       - ./.env 
     # Si también defines variables de entorno directamente en el docker-compose (además del .env),
     # asegúrate de que no haya duplicados o conflictos. Por ejemplo:
-    environment:
-      DJANGO_SECRET_KEY: TU_CLAVE_SECRETA_DJANGO # Reemplaza con tu clave secreta de Django
-      DJANGO_DEBUG: "True" # O "False" para producción
-      MYSQL_DATABASE: BdContabilidad
-      MYSQL_USER: USUARIOOCHO
-      MYSQL_PASSWORD: TU_CONTRASENA_MYSQL
-      MYSQL_HOST: db # El nombre del servicio de la BD en Docker Compose
-      MYSQL_PORT: 3306
-
+  
 volumes:
   mysql_data: # Define el volumen para la persistencia de datos de MySQL

@@ -21,7 +21,7 @@ class CuentaContable(models.Model):
     descripcionCuenta = models.TextField(db_column='descripcionCuenta')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'CuentaContable'
 
 class AsientoContable(models.Model):
@@ -31,7 +31,7 @@ class AsientoContable(models.Model):
     referenciaAsiento = models.CharField(db_column='referenciaAsiento', max_length=500)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'AsientoContable'
 
 class DetalleAsiento(models.Model):
@@ -42,7 +42,7 @@ class DetalleAsiento(models.Model):
     idCuenta = models.ForeignKey('Cuentacontable', on_delete=models.CASCADE, db_column='idCuenta')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'DetalleAsiento'
 
 class Transaccion(models.Model):
@@ -53,7 +53,7 @@ class Transaccion(models.Model):
     idAsiento = models.ForeignKey('Asientocontable', on_delete=models.CASCADE, db_column='idAsiento')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Transaccion'
 
 class ReporteContable(models.Model):
@@ -62,6 +62,6 @@ class ReporteContable(models.Model):
     creacionReporte = models.DateTimeField(db_column='creacionReporte', auto_now_add=True)
 
     class Meta:
-        managed = False
+        
         db_table = 'ReporteContable'
 
