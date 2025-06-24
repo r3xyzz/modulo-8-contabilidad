@@ -1,13 +1,16 @@
 name: Deploy Django to EC2
+
 on:
-  push: #Activación forzada desde GitHub
+  push:
     branches:
-      - Master
+      - Master 
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Clonar repositorio
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Crear carpeta en EC2
@@ -18,15 +21,12 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            # Creamos la carpeta donde estará todo el proyecto
-            # Esto debe ser la ruta final donde quieres los archivos de tu proyecto
             mkdir -p /home/ubuntu/modulo-8-contabilidad
 
       - name: Subir código a EC2
         uses: burnett01/rsync-deployments@7.0.2
         with:
           switches: "-avz --delete"
-         
           path: "./" 
           remote_host: ${{ secrets.IP_SERVER }}
           remote_user: ${{ secrets.USERNAME }}
@@ -42,16 +42,18 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            # El .env se creará ahora dentro de la carpeta del proyecto
             cat <<EOF > /home/ubuntu/modulo-8-contabilidad/.env
             DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
             DJANGO_DEBUG=True
             MYSQL_DATABASE=BdContabilidad
             MYSQL_USER=USUARIOOCHO
-            MYSQL_PASSWORD=admin
+            MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} # Usa un secret si admin es temporal
+            MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} # Usa un secret
             MYSQL_HOST=db
             MYSQL_PORT=3306
             EOF
+            # Asegúrate de que los secrets DJANGO_SECRET_KEY, MYSQL_PASSWORD, MYSQL_ROOT_PASSWORD
+            # existan en tus GitHub Secrets. Si 'admin' es fijo, cámbialo a un secret.
 
       - name: Levantar contenedores con Docker Compose
         uses: appleboy/ssh-action@v1
@@ -61,10 +63,23 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            # Navegamos a la carpeta donde ahora está docker-compose.yml
+            # Detener el servicio MySQL nativo de la EC2 (si está activo)
+            sudo systemctl stop mysql || true # Añadido para asegurar que el puerto 3306 esté libre
+
             cd /home/ubuntu/modulo-8-contabilidad 
-            docker compose down
-            docker compose up -d --build
+            
+            # Detener y limpiar contenedores Docker Compose
+            docker-compose down || true # Usa docker-compose y añade || true para evitar fallos si no hay contenedores
+
+            # Eliminar el volumen de datos de MySQL para una base de datos limpia
+            docker volume rm modulo-8-contabilidad_mysql_data || true # Asegura el volumen de datos limpio
+
+            # Eliminar archivos de migración de Django para regenerar
+            rm -rf BACKEND/moduloContabilidad/migrations/0*.py
+            rm -rf BACKEND/moduloContabilidad/migrations/__pycache__/
+
+            # Construir y levantar contenedores
+            docker-compose up -d --build
 
       - name: Ejecutar migraciones de Django
         uses: appleboy/ssh-action@v1
@@ -74,6 +89,16 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            # Navegamos a la carpeta donde ahora está docker-compose.yml
             cd /home/ubuntu/modulo-8-contabilidad
-            docker-compose exec backend python manage.py migrate
+            # Generar migraciones (interactivo si no se añade --no-input)
+            # Nota: el timezone.now interactivo no funcionará aquí.
+            # Debes asegurarte de que tus modelos tienen un default no interactivo
+            # o que la migración inicial ya está en el repo.
+            # Para este caso, asumimos que el 0001_initial ya está después de los cambios locales.
+            docker-compose exec backend python manage.py makemigrations moduloContabilidad --no-input
+
+            # Aplicar migraciones
+            docker-compose exec backend python manage.py migrate --no-input
+
+            echo "Despliegue completado con éxito."
+
