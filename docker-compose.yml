@@ -1,44 +1,62 @@
-version: '3.8' 
+    version: '3.9' # Asegúrate de que esta línea esté presente y sin comillas adicionales.
 
-services:
-  db:
-    image: mysql:8
-    restart: always
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: rootpassword # Asegúrate de que este valor sea el que usas en tu .env para MYSQL_ROOT_PASSWORD si está allí.
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"] # Comando para verificar la conexión a la base de datos
-      interval: 10s       # Frecuencia de la comprobación (cada 10 segundos)
-      timeout: 10s        # Tiempo máximo para que el comando responda
-      retries: 5          # Número de reintentos antes de considerar el servicio "unhealthy"
-      start_period: 30s   # Tiempo de gracia inicial para que el servicio arranque antes de empezar las comprobaciones
-  # --- FIN DE LAS NUEVAS LÍNEAS PARA HEALTHCHECK ---
-
-  backend:
-    build:
-      context: ./BACKEND 
-    
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./BACKEND:/app
-    entrypoint: ["/bin/sh", "-c", "sleep 15 && python manage.py runserver 0.0.0.0:8000"]
-    depends_on:
+    services:
       db:
-        condition: service_healthy 
+        image: mysql:8
+        restart: always
+        env_file: # Carga las variables de entorno desde el .env para el servicio 'db'
+          - ./.env
+        # Las variables de 'environment' de abajo son opcionales si ya están en .env y env_file está presente,
+        # pero las mantengo para referencia visual. env_file tiene precedencia si hay duplicados.
+        environment:
+          MYSQL_DATABASE: ${MYSQL_DATABASE}
+          MYSQL_USER: ${MYSQL_USER}
+          MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+          MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # Ahora lee también la contraseña root del .env
+        ports:
+          - "3306:3306"
+        volumes:
+          - mysql_data:/var/lib/mysql
+          # ¡CRÍTICO! Monta el archivo de configuración personalizado para MySQL 8
+          - ./db/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf 
+        
+        healthcheck: # Comprobación de salud para la base de datos
+          test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+          interval: 10s       # Frecuencia de la comprobación (cada 10 segundos)
+          timeout: 10s        # Tiempo máximo para que el comando responda
+          retries: 5          # Número de reintentos antes de considerar el servicio "unhealthy"
+          start_period: 30s
+
+      backend:
+        build:
+          context: ./BACKEND # La carpeta donde está el Dockerfile de Django
+        
+        ports:
+          - "8000:8000" # Mapea el puerto 8000 del contenedor al puerto 8000 del host EC2
+        volumes:
+          - ./BACKEND:/app # Monta tu código Django en el contenedor
+        entrypoint: ["/bin/sh", "-c", "sleep 15 && python manage.py runserver 0.0.0.0:8000"] # Espera que la DB inicie
+        depends_on: # El backend espera a que la DB esté saludable
+          db:
+            condition: service_healthy
+        env_file: # El servicio 'backend' leerá sus variables del .env
+          - ./.env 
+
+      frontend: # ¡NUEVO SERVICIO PARA TU APLICACIÓN ANGULAR!
+        build:
+          context: ./FRONTEND # Indica a Docker Compose dónde encontrar el Dockerfile del frontend
+        ports:
+          - "4200:4200" # Mapea el puerto 4200 del contenedor al puerto 4200 del host EC2
+        volumes:
+          - ./FRONTEND:/app # Monta el código fuente del frontend
+        depends_on:
+          - backend # El frontend puede depender del backend (si hace peticiones a su API)
+        healthcheck: # Opcional: añade un healthcheck para el frontend
+          test: ["CMD-SHELL", "wget -q http://localhost:4200 || exit 1"] # Asume 'wget' está en el contenedor
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+    volumes: # Define el volumen para la persistencia de datos de MySQL
+      mysql_data:
     
-    env_file:
-      - ./.env 
-    # Si también defines variables de entorno directamente en el docker-compose (además del .env),
-    # asegúrate de que no haya duplicados o conflictos. Por ejemplo:
-  
-volumes:
-  mysql_data: # Define el volumen para la persistencia de datos de MySQL
