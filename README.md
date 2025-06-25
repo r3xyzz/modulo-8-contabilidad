@@ -23,7 +23,7 @@ Este repositorio contiene el desarrollo de un **módulo de contabilidad digital*
 
 ## 🛠📖 Documentacion de la API
 
-- **Api:** http://34.225.192.85:8000/api/schema/swagger-ui/#/
+- **Api:** http://44.206.36.40:8000/api/schema/swagger-ui/#/
 
 ## ⚙️ Instalación y ejecución
 
