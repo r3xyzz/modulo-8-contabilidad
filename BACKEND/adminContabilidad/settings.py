@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'adminContabilidad.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.mysql', #actualizacion
         'NAME': os.getenv('MYSQL_DATABASE'), # Lee desde .env
         'USER': os.getenv('MYSQL_USER'), # Usuario de MySQL
         'PASSWORD': os.getenv('MYSQL_PASSWORD'), # Contraseña de MySQL
