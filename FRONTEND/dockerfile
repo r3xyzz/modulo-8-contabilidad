@@ -2,11 +2,11 @@ FROM node:18
 
 WORKDIR /app
 
-COPY ./FRONTEND/package*.json ./
+COPY package*.json ./ # Copia package.json y package-lock.json desde la raíz del contexto (FRONTEND/)
 RUN npm install
 
-COPY ./FRONTEND ./
+COPY . .              # Copia todo el contenido restante de la carpeta FRONTEND/ al directorio /app del contenedor
 
 EXPOSE 4200
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start"] # Para desarrollo. Si quieres producción, usaríamos Nginx como te comenté.
